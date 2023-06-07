@@ -69,3 +69,18 @@ export async function GetAllUserList() {
   }`
   );
 }
+
+export async function addFollowing({ id, email, name, image, username }: OauthUser) {
+  return client.patch({
+      id: "remingtons",
+      insert: {
+        after: "people[-1]",
+        items: [
+          {
+            _type: "reference",
+            _ref: "person-1234"
+          }
+        ]
+      }
+  });
+}

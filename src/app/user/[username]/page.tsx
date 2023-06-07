@@ -1,6 +1,8 @@
 'use client'
 import UserInfo from "@/components/UserInfo";
+import Userposts from "@/components/Userposts";
 import { UserPageType } from "@/model/user";
+import { HashLoader } from "react-spinners";
 import useSWR from 'swr';
 
 type Props = {
@@ -16,7 +18,12 @@ export default function UserPage({ params: { username } }: Props) {
         isLoading,
         error,
       } = useSWR<UserPageType>(`/api/user/${username}`);
-      console.log(user)
-      
-return <><UserInfo user={user}/></> 
+      if(!user) return null;
+return <>{isLoading ? (
+    <div className="mt-4"><HashLoader color="#afffef" /></div>
+  ) : 
+  <>
+  <UserInfo user={user}/>
+  <Userposts user={user}/>
+  </> }</> 
 }
