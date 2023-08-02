@@ -1,16 +1,8 @@
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
-import { handler } from "../auth/[...nextauth]/route";
-import { GetAllUserList } from "@/service/user";
+import { searchUsers } from '@/service/user';
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
-    const session = await getServerSession(handler)
-    const user = session?.user
-    if (!user) {
-        return new Response('인증 에러', {status : 401})
-    }
-    return GetAllUserList()
-    .then((data) => NextResponse.json(data))
-
-    
+  return searchUsers().then((data) => NextResponse.json(data));
 }

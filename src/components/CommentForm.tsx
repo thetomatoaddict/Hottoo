@@ -1,14 +1,42 @@
-import { BsEmojiSmile, BsSend } from "react-icons/bs";
+import { FormEvent, useState } from 'react';
+import SmileIcon from './ui/icons/SmileIcon';
 
-export default function CommentForm() {
- 
-return (
-    <form className="flex items-center gap-2 p-2 my-1">
-        <BsEmojiSmile className="text-2xl font-bold text-neutral-500" />
-        <input type="text" placeholder="add a comment..." className="w-full border-none outline-none" />
-        <button>
-          <BsSend className="text-[#63d0ff] font-bold text-xl" />
-        </button>
-      </form>
-)
+type Props = {
+  onPostComment: (comment: string) => void;
+};
+
+export default function CommentForm({ onPostComment }: Props) {
+  const [comment, setComment] = useState('');
+  const buttonDisabled = comment.length === 0;
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onPostComment(comment);
+    setComment('');
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className='flex items-center px-3 border-t border-neutral-300'
+    >
+      <SmileIcon />
+      <input
+        className='w-full ml-2 border-none outline-none p-3'
+        type='text'
+        placeholder='Add a comment...'
+        required
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+      />
+      <button
+        disabled={buttonDisabled}
+        className={`font-bold ml-2 ${
+          buttonDisabled ? 'text-sky-300' : 'text-sky-500 '
+        }`}
+      >
+        Post
+      </button>
+    </form>
+  );
 }

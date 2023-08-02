@@ -1,56 +1,65 @@
-import Image from "next/image";
-type AvatarSize = "sm" | "lg" | "md" | "xl";
+type AvatarSize = 'small' | 'medium' | 'large' | 'xlarge';
 type Props = {
   image?: string | null;
   size?: AvatarSize;
   highlight?: boolean;
 };
+
 export default function Avatar({
   image,
-  size = "sm",
-  highlight = true,
+  size = 'large',
+  highlight = false,
 }: Props) {
   return (
-    <div
-      className={`rounded-full bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300 ${ContainerCustomOption(size)} flex justify-center items-center`}
-    >
+    <div className={getContainerStyle(size, highlight)}>
+      {/* eslint-disable-next-line @next/next/no-img-element*/}
       <img
-        alt="user profile"
+        className={`bg-white object-cover rounded-full 
+        ${getImageSizeStyle(size).image}`}
+        alt='user profile'
         src={image ?? undefined}
-        className={`rounded-full bg-white object-cover ${AvatarCustomOption(size,highlight)}`}
-        referrerPolicy="no-referrer"
+        referrerPolicy='no-referrer'
       />
     </div>
   );
 }
 
-function AvatarCustomOption(size: AvatarSize, highlight: boolean) {
-  switch (highlight) {
-    case true:
-      switch (size) {
-        case "sm":
-            return "p-[0.1rem] w-[32px] h-[32px]"
-        case "md":
-            return "p-[0.15rem] w-[41px] h-[41px]"
-        case "lg":
-            return "p-[0.2rem] w-16 h-16"
-        case "xl":
-          return "p-[0.3rem] w-[140px] h-[140px]"
-      }
-    case false:
-      return "h-full w-full p-[0.2rem]]";
-  }
+function getContainerStyle(size: AvatarSize, highlight: boolean): string {
+  const baseStyle = 'rounded-full flex justify-center items-center';
+  const highlightStyle = highlight
+    ? 'bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300'
+    : '';
+  const { container } = getImageSizeStyle(size);
+  return `${baseStyle} ${highlightStyle} ${container}`;
 }
 
-function ContainerCustomOption(size: AvatarSize) {
-    switch (size) {
-        case "sm":
-            return "w-9 h-9"
-        case "md":
-            return "w-[45px] h-[45px]"
-        case "lg":
-            return "w-[68px] h-[68px]"
-            case "xl":
-            return "w-[150px] h-[150px]"
-      }
+type ImageSizeStyle = {
+  container: string;
+  image: string;
+};
+function getImageSizeStyle(size: AvatarSize): ImageSizeStyle {
+  switch (size) {
+    case 'small':
+      return {
+        container: 'w-9 h-9',
+        image: 'w-[34px] h-[34px] p-[0.1rem]',
+      };
+    case 'medium':
+      return {
+        container: 'w-11 h-11',
+        image: 'w-[42px] h-[42px] p-[0.1rem]',
+      };
+    case 'large':
+      return {
+        container: 'w-[68px] h-[68px]',
+        image: 'w-16 h-16 p-[0.2rem]',
+      };
+    case 'xlarge':
+      return {
+        container: 'w-[142px] h-[142px]',
+        image: 'w-[138px] h-[138px] p-[0.3rem]',
+      };
+    default:
+      throw new Error(`Unsupported type size: ${size}`);
+  }
 }

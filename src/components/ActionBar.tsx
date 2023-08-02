@@ -1,35 +1,66 @@
-import Date from "@/utility/date";
-import Image from "next/image";
-import { BsBookmark, BsHeart } from "react-icons/bs";
-
+import BookmarkIcon from './ui/icons/BookmarkIcon';
+import HeartIcon from './ui/icons/HeartIcon';
+import { parseDate } from '@/util/date';
+import { useState } from 'react';
+import ToggleButton from './ui/ToggleButton';
+import HeartFillIcon from './ui/icons/HeartFillIcon';
+import BookmarkFillIcon from './ui/icons/BookmarkFillIcon';
+import { Comment, SimplePost } from '@/model/post';
+import { useSession } from 'next-auth/react';
+import { useSWRConfig } from 'swr';
+import usePosts from '@/hooks/posts';
+import useMe from '@/hooks/me';
+import CommentForm from './CommentForm';
 type Props = {
-    likes : string[];
-    username : string;
-    text? : string;
-    createdAt : string;
-}
+  post: SimplePost;
+  children?: React.ReactNode;
+  onComment: (comment: Comment) => void;
+};
+export default function ActionBar({ post, children, onComment }: Props) {
+  const { id, likes, createdAt } = post;
+  const { user, setBookmark } = useMe();
+  const { setLike } = usePosts();
 
-export default function ActionBar({likes, username, text, createdAt}:Props) {
- 
-return (
+  const liked = user ? likes.includes(user.username) : false;
+  const bookmarked = user?.bookmarks.includes(id) ?? false;
+
+  const handleLike = (like: boolean) => {
+    user && setLike(post, user.username, like);
+  };
+
+  const handleBookmark = (bookmark: boolean) => {
+    user && setBookmark(id, bookmark);
+  };
+
+  const handleComment = (comment: string) => {
+    user && onComment({ comment, username: user.username, image: user.image });
+  };
+  return (
     <>
-    
-      <div className="bg-neutral-50 flex justify-between text-xl font-bold p-2">
-        <BsHeart />
-        <BsBookmark />
+      <div className='flex justify-between my-2 px-4'>
+        <ToggleButton
+          toggled={liked}
+          onToggle={handleLike}
+          onIcon={<HeartFillIcon />}
+          offIcon={<HeartIcon />}
+        />
+        <ToggleButton
+          toggled={bookmarked}
+          onToggle={handleBookmark}
+          onIcon={<BookmarkFillIcon />}
+          offIcon={<BookmarkIcon />}
+        />
       </div>
-      <div className="bg-neutral-50 p-2">
-        {likes.length > 1 ? (
-          <p>{likes.length} likes</p>
-        ) : (
-          <p>{likes.length} like</p>
-        )}
-        {text && (
-          <p className="pt-2 pb-4">
-          <span className="font-semibold">{username}</span> {text}
+      <div className='px-4 py-1'>
+        <p className='text-sm font-bold mb-2'>{`${likes?.length ?? 0} ${
+          likes?.length > 1 ? 'likes' : 'like'
+        }`}</p>
+        {children}
+        <p className='text-xs text-neutral-500 uppercase my-2'>
+          {parseDate(createdAt)}
         </p>
-        )}
-        <p className="text-neutral-500 text-xs uppercase">{Date(createdAt)}</p>
-      </div></>
-)
+      </div>
+      <CommentForm onPostComment={handleComment} />
+    </>
+  );
 }

@@ -1,19 +1,10 @@
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import { handler } from "../../auth/[...nextauth]/route";
-import { GetUserList } from "@/service/user";
+import { searchUsers } from '@/service/user';
+import { NextRequest, NextResponse } from 'next/server';
+
 type Context = {
-    params : {keyword : string}
-}
-
-export async function GET(request: NextRequest, context: Context) {
-    const session = await getServerSession(handler)
-    const user = session?.user
-    if (!user) {
-        return new Response('인증 에러', {status : 401})
-    }
-    return GetUserList(context.params.keyword)
-    .then((data) => NextResponse.json(data))
-
-    
+  params: { keyword: string };
+};
+export async function GET(_: NextRequest, context: Context) {
+  return searchUsers(context.params.keyword) //
+    .then((data) => NextResponse.json(data));
 }

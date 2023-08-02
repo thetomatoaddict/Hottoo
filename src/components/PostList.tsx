@@ -1,24 +1,23 @@
-"use client";
-import useSWR from "swr";
-import { DetailUser } from "@/model/user";
-import { HashLoader } from "react-spinners";
-import { SimplePost } from "@/model/post";
-import PostCard from "./PostCard";
+'use client';
+import usePosts from '@/hooks/posts';
+import PostListCard from './PostListCard';
+import GridSpinner from './ui/GridSpinner';
 
 export default function PostList() {
-  const { data: posts, isLoading, error } = useSWR<SimplePost[]>("/api/posts");
+  const { posts, isLoading: loading } = usePosts();
+
   return (
-    <section className="flex justify-center items-center overflow-x-auto min-h-[99px] mb-4 w-full">
-      {isLoading ? (
-        <HashLoader color="#afffef" />
-      ) : (
-        (!posts || posts.length === 0) && <p>{`Oops! It's empty.`}</p>
+    <section>
+      {loading && (
+        <div className='text-center mt-32'>
+          <GridSpinner color='red' />
+        </div>
       )}
       {posts && (
         <ul>
-          {posts?.map((post: SimplePost) => (
-            <li key={post.id}>
-              <PostCard post={post} />
+          {posts.map((post, index) => (
+            <li key={post.id} className='mb-4'>
+              <PostListCard post={post} priority={index < 2} />
             </li>
           ))}
         </ul>

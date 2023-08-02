@@ -1,13 +1,14 @@
-import Avatar from "./Avatar"
+import Avatar from './Avatar';
 
 type Props = {
-    username : string;
-    image : string;
-}
-export default function PostUserAvatar({username, image} : Props) {
- 
-return <div className=" w-full flex items-center gap-2">
-<Avatar image={image} size="md" />
-<p className="font-semibold">{username}</p>
-</div>
+  image: string;
+  username: string;
+};
+export default function PostUserAvatar({ image, username }: Props) {
+  return (
+    <div className='flex items-center p-2'>
+      <Avatar image={image} size='medium' highlight />
+      <span className='text-gray-900 font-bold ml-2'>{username}</span>
+    </div>
+  );
 }
