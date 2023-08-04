@@ -4,6 +4,7 @@ export type AuthUser = {
   username: string;
   email: string;
   image?: string;
+  isArtist: boolean;
 };
 
 export type SimpleUser = Pick<AuthUser, 'username' | 'image'>;

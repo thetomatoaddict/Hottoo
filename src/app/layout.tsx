@@ -9,10 +9,10 @@ const openSans = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Instantgram',
-    template: 'Instantgram | %s',
+    default: 'Hottoo',
+    template: 'Hottoo | %s',
   },
-  description: 'Instantgram Photos',
+  description: 'Tattoos only for you',
 };
 
 export default function RootLayout({

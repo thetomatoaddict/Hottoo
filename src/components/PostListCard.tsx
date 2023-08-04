@@ -9,6 +9,7 @@ import PostDetail from './PostDetail';
 import PostModal from './PostModal';
 import PostUserAvatar from './PostUserAvatar';
 import ModalPortal from './ui/ModalPortal';
+import SimpleActionBar from './SimpleActionBar';
 
 type Props = {
   post: SimplePost;
@@ -23,7 +24,7 @@ export default function PostListCard({ post, priority = false }: Props) {
     postComment(post, comment);
   };
   return (
-    <article className='rounded-lg shadow-md border border-gray-200'>
+    <article className='rounded-lg shadow-md border border-gray-200 bg-white'>
       <PostUserAvatar image={userImage} username={username} />
       <Image
         className='w-full object-cover aspect-square'
@@ -34,18 +35,7 @@ export default function PostListCard({ post, priority = false }: Props) {
         priority={priority}
         onClick={() => setOpenModal(true)}
       />
-      <ActionBar post={post} onComment={handlePostComment}>
-        <p>
-          <span className='font-bold mr-1'>{username}</span>
-          {text}
-        </p>
-        {comments > 1 && (
-          <button
-            className='font-bold my-2 text-sky-500'
-            onClick={() => setOpenModal(true)}
-          >{`View all ${comments} comments`}</button>
-        )}
-      </ActionBar>
+      <SimpleActionBar post={post}/>
       {openModal && (
         <ModalPortal>
           <PostModal onClose={() => setOpenModal(false)}>

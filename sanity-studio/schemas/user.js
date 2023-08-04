@@ -25,6 +25,11 @@ export default {
             type : 'string' 
         },
         {
+            title : 'IsArtist', //studio에서 보는 이름
+            name : 'isArtist', // 백엔드에서 보는 이름
+            type : 'boolean' 
+        },
+        {
             title : 'Following', //studio에서 보는 이름
             name : 'following', // 백엔드에서 보는 이름
             type : 'array',

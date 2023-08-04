@@ -6,7 +6,7 @@ type Props = {
   user: ProfileUser;
 };
 export default function UserProfile({ user }: Props) {
-  const { image, username, name, followers, following, posts } = user;
+  const { image, username, name, followers, following, posts, isArtist } = user;
   const info = [
     { title: 'posts', data: posts },
     { title: 'followers', data: followers },
@@ -14,7 +14,7 @@ export default function UserProfile({ user }: Props) {
   ];
   return (
     <section className='w-full flex flex-col md:flex-row items-center justify-center py-12 border-b border-neutral-300'>
-      <Avatar image={image} highlight size='xlarge' />
+      <Avatar image={image} highlight size='xlarge' isArtist={isArtist}/>
       <div className='md:ml-10 basis-1/3'>
         <div className='flex flex-col items-center md:flex-row'>
           <h1 className='text-2xl md:mr-8 my-2 md:mb-0'>{username}</h1>

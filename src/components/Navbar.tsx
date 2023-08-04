@@ -11,6 +11,8 @@ import { usePathname } from 'next/navigation';
 import ColorButton from './ui/ColorButton';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Avatar from './Avatar';
+import { BsArrowThroughHeart } from 'react-icons/bs';
+import FollowingBar from './FollowingBar';
 
 const menu = [
   {
@@ -35,12 +37,18 @@ export default function Navbar() {
   const user = session?.user;
 
   return (
-    <div className='flex justify-between items-center px-6'>
-      <Link href='/'>
-        <h1 className='text-3xl font-bold'>Instantgram</h1>
+    <div className="flex justify-between items-center px-6">
+      <Link href="/">
+        <h1 className="text-3xl font-bold flex gap-1">
+          Hottoo
+          <BsArrowThroughHeart />
+        </h1>
       </Link>
+      
       <nav>
-        <ul className='flex gap-4 items-center p-4'>
+        
+        <ul className="flex gap-4 items-center p-4">
+        {user && <FollowingBar />}
           {menu.map((item) => (
             <li key={item.href}>
               <Link href={item.href}>
@@ -51,15 +59,15 @@ export default function Navbar() {
           {user && (
             <li>
               <Link href={`/user/${user.username}`}>
-                <Avatar image={user.image} size='small' highlight />
+                <Avatar image={user.image} size="small" highlight />
               </Link>
             </li>
           )}
           <li>
             {session ? (
-              <ColorButton text='Sign out' onClick={() => signOut()} />
+              <ColorButton text="Sign out" onClick={() => signOut()} />
             ) : (
-              <ColorButton text='Sign in' onClick={() => signIn()} />
+              <ColorButton text="Sign in" onClick={() => signIn()} />
             )}
           </li>
         </ul>

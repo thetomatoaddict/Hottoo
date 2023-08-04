@@ -3,12 +3,14 @@ type Props = {
   image?: string | null;
   size?: AvatarSize;
   highlight?: boolean;
+  isArtist?: boolean;
 };
 
 export default function Avatar({
   image,
   size = 'large',
   highlight = false,
+  isArtist = false
 }: Props) {
   return (
     <div className={getContainerStyle(size, highlight)}>
@@ -20,12 +22,13 @@ export default function Avatar({
         src={image ?? undefined}
         referrerPolicy='no-referrer'
       />
+      { size == 'xlarge' && isArtist == true ? <span className="absolute top-0 right-0 bg-rose-600 px-2 rounded-full font-bold text-white shadow-xl">artist</span> : null}
     </div>
   );
 }
 
 function getContainerStyle(size: AvatarSize, highlight: boolean): string {
-  const baseStyle = 'rounded-full flex justify-center items-center';
+  const baseStyle = 'rounded-full flex justify-center items-center relative';
   const highlightStyle = highlight
     ? 'bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300'
     : '';
