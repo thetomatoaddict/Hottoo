@@ -1,4 +1,4 @@
-import UserPosts from '@/components/UserPosts';
+import UserPostlist from '@/components/UserPosts';
 import UserProfile from '@/components/UserProfile';
 import { getUserForProfile } from '@/service/user';
 import { Metadata } from 'next';
@@ -19,7 +19,7 @@ export default async function UserPage({ params: { username } }: Props) {
   return (
     <section className='w-full'>
       <UserProfile user={user} />
-      <UserPosts user={user} />
+      <UserPostlist user={user} />
     </section>
   );
 }

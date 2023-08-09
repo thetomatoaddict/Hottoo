@@ -15,7 +15,7 @@ const tabs = [
   { type: 'saved', icon: <BookmarkIcon className='w-3 h-3' /> },
   { type: 'liked', icon: <HeartIcon className='w-3 h-3' /> },
 ];
-export default function UserPosts({ user: { username } }: Props) {
+export default function UserPostlist({ user: { username } }: Props) {
   const [query, setQuery] = useState(tabs[0].type);
 
   return (
