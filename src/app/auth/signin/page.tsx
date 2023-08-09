@@ -22,7 +22,7 @@ export default async function SignPage({
   const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect('hottoo.vercel.app');
+    redirect('/');
   }
 
   const providers = (await getProviders()) ?? {};
