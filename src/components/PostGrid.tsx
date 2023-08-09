@@ -11,9 +11,9 @@ export default function PostGrid() {
       {isLoading && <GridSpinner />}
       <ul className='grid grid-cols-3 gap-4 py-4 px-8'>
         {posts &&
-          posts.map((post, index) => (
+          posts.map((post) => (
             <li key={post.id}>
-              <PostGridCard post={post} priority={index < 6} />
+              <PostGridCard post={post} priority/>
             </li>
           ))}
       </ul>

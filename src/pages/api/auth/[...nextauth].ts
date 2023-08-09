@@ -1,11 +1,29 @@
 import { addUser } from '@/service/user';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials'
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_OAUTH_ID || '',
       clientSecret: process.env.GOOGLE_OAUTH_SECRET || '',
+    }),
+    CredentialsProvider({
+      name: 'Test account',
+      credentials: {
+        username: { label: 'Username', type: 'text', placeholder: 'test' },
+        password: { label: 'Password', type: 'password', placeholder: '1234'},
+      },
+      async authorize(credentials, req) {
+        const user = { id: '123', name: 'test_user', email: 'test_user@example.com', username:'test_user' }
+
+        if (user) {
+          return user
+        } else {
+          return null;
+        }
+      },
     }),
   ],
   callbacks: {

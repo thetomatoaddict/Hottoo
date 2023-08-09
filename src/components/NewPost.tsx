@@ -78,7 +78,7 @@ export default function NewPost({ user: { username, image } }: Props) {
           {error}
         </p>
       )}
-      <PostUserAvatar username={username} image={image ?? ''} />
+      <PostUserAvatar username={username} image={image ?? 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'} />
       <form className='w-full flex flex-col mt-2' onSubmit={handleSubmit}>
         <input
           className='hidden'
