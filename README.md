@@ -30,3 +30,11 @@
 |특정 유저가 게시한 게시글들 요청|GET|api/posts/{id}|
 |유저이름에 키워드가 포함되는 검색결과 요청|GET|api/search/{keyword}|
 
+## 사용된 기술
+----------
+- Next.js
+- React
+- TypeScript
+- TailwindCSS
+- Vercel (배포)
+
